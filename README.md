@@ -1,8 +1,8 @@
 # バーンワークス株式会社 Claude Code 利用ガイドライン
 
-**版数：** 1.0.1 （改訂履歴は文末に記載）  
+**版数：** 1.0.2 （改訂履歴は文末に記載）  
 **制定日：** 2026年4月1日  
-**最終更新日：** 2026年4月28日  
+**最終更新日：** 2026年4月29日  
 **作成：** バーンワークス株式会社  
 **対象者：** 社内従業員および開発委託先（外部パートナー）  
 **対象OS：** macOS / WSL2（Ubuntu）  
@@ -211,6 +211,7 @@ claude
 ```
 ├── README.md                  ← 本ガイドライン
 ├── settings.json              ← ~/.claude/settings.json のサンプル
+├── CLAUDE.sample.md           ← CLAUDE.md のサンプル
 └── hooks/
     └── block_dangerous.sh     ← 危険コマンドブロック用 Hooks スクリプト
 ```
@@ -225,12 +226,15 @@ cd claude-code-guideline
 # 2. settings.json をコピー
 cp settings.json ~/.claude/settings.json
  
-# 3. Hooks スクリプトをコピーして実行権限を付与
+# 3. CLAUDE.sample.md をリネームしてコピー（任意）
+cp CLAUDE.sample.md /path/to/your-project/CLAUDE.md
+ 
+# 4. Hooks スクリプトをコピーして実行権限を付与
 mkdir -p ~/.claude/hooks
 cp hooks/block_dangerous.sh ~/.claude/hooks/
 chmod +x ~/.claude/hooks/block_dangerous.sh
  
-# 4. 設定が正しく読み込まれることを確認
+# 5. 設定が正しく読み込まれることを確認
 claude doctor
 ```
  
@@ -862,3 +866,4 @@ claude doctor
 | 0.1.0 | 2026年4月1日 | 初版制定 |
 | 1.0.0 | 2026年4月28日 | 一般公開 |
 | 1.0.1 | 2026年4月28日 | テキストの微調整（内容に変更なし） |
+| 1.0.2 | 2026年4月29日 | `CLAUDE.md` のサンプルを追加 |

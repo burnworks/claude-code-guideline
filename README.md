@@ -224,6 +224,8 @@ git clone https://github.com/burnworks/claude-code-guideline.git
 cd claude-code-guideline
  
 # 2. settings.json をコピー
+# Claude Code を一度起動した場合 ~/.claude ディレクトリはすでに作成されている場合があります
+mkdir -p ~/.claude
 cp settings.json ~/.claude/settings.json
  
 # 3. CLAUDE.sample.md をリネームしてコピー（任意）

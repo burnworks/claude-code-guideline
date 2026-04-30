@@ -50,7 +50,7 @@ Pro 以上のプランであれば、パーミッション、サンドボック�
 - JSON ファイルの読み書き
 
 > [!NOTE]
-> 本ガイドラインは 2026年4月時点の仕様に基づいています。Claude Code は頻繁にアップデートされるため、公式ドキュメント（ https://code.claude.com ）も併せて参照してください。
+> 本ガイドラインは 2026年4月時点の仕様に基づいています。Claude Code は頻繁にアップデートされるため、公式ドキュメント（ https://code.claude.com/docs/en/overview ）も併せて参照してください。
 
 ## 2. 用語の定義
 
@@ -853,7 +853,7 @@ claude doctor
 
 | リソース | URL |
 |---|---|
-| Claude Code 公式ドキュメント | https://code.claude.com |
+| Claude Code 公式ドキュメント | https://code.claude.com/docs/en/overview |
 | インストール・セットアップ | https://code.claude.com/docs/en/setup |
 | 設定リファレンス | https://code.claude.com/docs/en/settings |
 | パーミッション設定 | https://code.claude.com/docs/en/permissions |

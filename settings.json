@@ -28,7 +28,9 @@
             "Bash(make *)",
             "Bash(node *)",
             "Bash(grep *)",
-            "Bash(find *)"
+            "Bash(find *)",
+            "Bash(docker *)",
+            "Bash(docker-compose *)"
         ],
         "deny": [
             "Bash(rm *)",

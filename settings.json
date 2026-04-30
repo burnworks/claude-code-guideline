@@ -65,7 +65,6 @@
             "allowedDomains": [
                 "api.anthropic.com",
                 "registry.npmjs.org",
-                "registry.yarnpkg.com",
                 "github.com",
                 "api.github.com",
                 "*.githubusercontent.com"

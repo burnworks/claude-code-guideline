@@ -685,7 +685,7 @@ MCP サーバーは Claude Code に GitHub 連携やデータベースアクセ�
 
 - **当社が承認した MCP サーバーのみ**を使用してください
 - 個人の判断で外部の MCP サーバーを追加することは禁止です
-- 使用する MCP サーバーは `.claude/settings.json` または `~/.mcp.json` に明示的に記載してください
+- 使用する MCP サーバーは `.mcp.json`（プロジェクト共有・Git 管理対象）または `~/.mcp.json`（個人設定）に明示的に記載してください
 - 認証トークン等の機密情報は JSON に直接記述せず、**必ず環境変数を経由して渡してください**
 
 ### 9-3. 設定例（GitHub MCP Server）
@@ -694,7 +694,7 @@ MCP サーバーは Claude Code に GitHub 連携やデータベースアクセ�
 
 #### 方法1： リモート HTTP（推奨）
 
-Claude Code の `mcp add` コマンドでリモート HTTP サーバーとして追加する方法です。ローカルへのインストールが不要で、公式ドキュメントでも最推奨のトランスポートです。
+Claude Code の `mcp add` コマンドでリモート HTTP サーバーとして追加する方法です。ローカルへのインストールが不要で、公式ドキュメントでも最推奨とされています。
 
 ```bash
 claude mcp add --transport http github https://api.githubcopilot.com/mcp/ \

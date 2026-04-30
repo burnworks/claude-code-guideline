@@ -2,7 +2,7 @@
 # ~/.claude/hooks/block_dangerous.sh
 #
 # PreToolUse Hooks: Bash ツールの危険コマンドをブロックする
-# exit 0 = 許可, exit 2 = ブロック
+# ブロック時は exit 0 + JSON 出力（permissionDecision: "deny"）を使用
 # JSON パースに python3 を使用（macOS / Ubuntu に標準搭載）
 
 INPUT=$(cat)
@@ -26,8 +26,17 @@ DANGEROUS_PATTERNS=(
 
 for pattern in "${DANGEROUS_PATTERNS[@]}"; do
   if echo "$COMMAND" | grep -qF "$pattern"; then
-    echo "[BLOCKED] 危険なコマンドパターンを検出しました: $pattern" >&2
-    exit 2
+    python3 -c "
+import json, sys
+print(json.dumps({
+    'hookSpecificOutput': {
+        'hookEventName': 'PreToolUse',
+        'permissionDecision': 'deny',
+        'permissionDecisionReason': '危険なコマンドパターンを検出しました: $pattern'
+    }
+}))
+"
+    exit 0
   fi
 done
 

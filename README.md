@@ -1,6 +1,6 @@
 # バーンワークス株式会社 Claude Code 利用ガイドライン
 
-**版数：** 1.1.1 （改訂履歴は文末に記載）  
+**版数：** 1.1.2 （改訂履歴は文末に記載）  
 **制定日：** 2026年4月1日  
 **最終更新日：** 2026年4月30日  
 **作成：** バーンワークス株式会社  
@@ -692,10 +692,19 @@ MCP サーバーは Claude Code に GitHub 連携やデータベースアクセ�
 
 以下は GitHub 公式の MCP サーバー（[github/github-mcp-server](https://github.com/github/github-mcp-server)）の設定例です。
 
-#### 方法1： Docker 経由（推奨）
- 
-Docker が利用可能な環境では、バイナリのインストールが不要なこちらを推奨します。
- 
+#### 方法1： リモート HTTP（推奨）
+
+Claude Code の `mcp add` コマンドでリモート HTTP サーバーとして追加する方法です。ローカルへのインストールが不要で、公式ドキュメントでも最推奨のトランスポートです。
+
+```bash
+claude mcp add --transport http github https://api.githubcopilot.com/mcp/ \
+  -H "Authorization: Bearer ${GITHUB_TOKEN}"
+```
+
+#### 方法2： Docker 経由（stdio）
+
+Docker が利用可能な環境でローカル実行する場合の方法です。バイナリの別途インストールが不要です。
+
 ```json
 {
   "mcpServers": {
@@ -713,11 +722,11 @@ Docker が利用可能な環境では、バイナリのインストールが不�
   }
 }
 ```
- 
-#### 方法2： ローカルバイナリ（stdio）
- 
+
+#### 方法3： ローカルバイナリ（stdio）
+
 GitHub MCP Server のバイナリをインストール済みの場合は、以下の設定を使用します。
- 
+
 ```json
 {
   "mcpServers": {
@@ -730,16 +739,6 @@ GitHub MCP Server のバイナリをインストール済みの場合は、以�
     }
   }
 }
-```
- 
-#### 方法3： Claude Code CLI からの追加
- 
-Claude Code の `mcp add` コマンドで直接追加することもできます。
- 
-```bash
-# リモート HTTP サーバー（GitHub ホスト）を追加
-claude mcp add --transport http github https://api.githubcopilot.com/mcp/ \
-  -H "Authorization: Bearer ${GITHUB_TOKEN}"
 ```
 
 > [!IMPORTANT]
@@ -884,3 +883,4 @@ claude doctor
 | 1.0.2 | 2026年4月29日 | `CLAUDE.md` のサンプルを追加 |
 | 1.1.0 | 2026年4月30日 | 一部、公式ドキュメントと内容がずれていた部分を修正 |
 | 1.1.1 | 2026年4月30日 | `CLAUDE.md` に関する部分に情報を追加 |
+| 1.1.2 | 2026年4月30日 | MCP 利用時の推奨順を変更 |

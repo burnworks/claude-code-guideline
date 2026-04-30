@@ -1,6 +1,6 @@
 # バーンワークス株式会社 Claude Code 利用ガイドライン
 
-**版数：** 1.1.2 （改訂履歴は文末に記載）  
+**版数：** 1.1.3 （改訂履歴は文末に記載）  
 **制定日：** 2026年4月1日  
 **最終更新日：** 2026年4月30日  
 **作成：** バーンワークス株式会社  
@@ -696,8 +696,15 @@ MCP サーバーは Claude Code に GitHub 連携やデータベースアクセ�
 
 Claude Code の `mcp add` コマンドでリモート HTTP サーバーとして追加する方法です。ローカルへのインストールが不要で、公式ドキュメントでも最推奨とされています。
 
+`--scope` オプションで設定の保存先を指定してください。
+
 ```bash
-claude mcp add --transport http github https://api.githubcopilot.com/mcp/ \
+# チームで共有する場合（.mcp.json に保存・Git 管理対象）
+claude mcp add --scope project --transport http github https://api.githubcopilot.com/mcp/ \
+  -H "Authorization: Bearer ${GITHUB_TOKEN}"
+
+# 個人設定として保存する場合（~/.mcp.json に保存）
+claude mcp add --scope user --transport http github https://api.githubcopilot.com/mcp/ \
   -H "Authorization: Bearer ${GITHUB_TOKEN}"
 ```
 
@@ -884,3 +891,4 @@ claude doctor
 | 1.1.0 | 2026年4月30日 | 一部、公式ドキュメントと内容がずれていた部分を修正 |
 | 1.1.1 | 2026年4月30日 | `CLAUDE.md` に関する部分に情報を追加 |
 | 1.1.2 | 2026年4月30日 | MCP 利用時の推奨順を変更 |
+| 1.1.3 | 2026年4月30日 | `mcp add` コマンドにオプションを追加 |

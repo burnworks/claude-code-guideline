@@ -1,6 +1,6 @@
 # バーンワークス株式会社 Claude Code 利用ガイドライン
 
-**版数：** 1.1.4 （改訂履歴は文末に記載）  
+**版数：** 1.1.5 （改訂履歴は文末に記載）  
 **制定日：** 2026年4月1日  
 **最終更新日：** 2026年4月30日  
 **作成：** バーンワークス株式会社  
@@ -618,8 +618,8 @@ Hooks は Claude Code がツールを実行する直前（`PreToolUse`）や直�
 
 | exit code | 動作 |
 |---|---|
-| `0` | 正常。ツール実行を続行する |
-| `2` | ブロック。ツール実行を中断し、Claude Code にエラーを通知する |
+| `0` | 正常。stdout に出力した JSON が処理される。ブロックする場合も `exit 0` で JSON を返すのが推奨 |
+| `2` | エラーによるブロック。ツール実行を中断するが、JSON 出力は無視される |
 | その他 | 警告として記録するが、実行は続行する |
 
 ### 8-4. 設定例：危険コマンドブロック用スクリプト
@@ -631,7 +631,7 @@ Hooks は Claude Code がツールを実行する直前（`PreToolUse`）や直�
 # ~/.claude/hooks/block_dangerous.sh
 #
 # PreToolUse Hooks: Bash ツールの危険コマンドをブロックする
-# exit 0 = 許可, exit 2 = ブロック
+# ブロック時は exit 0 + JSON 出力（permissionDecision: "deny"）を使用
 # JSON パースに python3 を使用（macOS / Ubuntu に標準搭載）
 
 INPUT=$(cat)
@@ -655,8 +655,17 @@ DANGEROUS_PATTERNS=(
 
 for pattern in "${DANGEROUS_PATTERNS[@]}"; do
   if echo "$COMMAND" | grep -qF "$pattern"; then
-    echo "[BLOCKED] 危険なコマンドパターンを検出しました: $pattern" >&2
-    exit 2
+    python3 -c "
+import json, sys
+print(json.dumps({
+    'hookSpecificOutput': {
+        'hookEventName': 'PreToolUse',
+        'permissionDecision': 'deny',
+        'permissionDecisionReason': '危険なコマンドパターンを検出しました: $pattern'
+    }
+}))
+"
+    exit 0
   fi
 done
 
@@ -826,12 +835,12 @@ Claude Code が生成・編集したコードは、人間が作成したコー�
 | WSL2 の場合、`bubblewrap` と `socat` がインストールされている | [ ] |
 | 本リポジトリの `settings.json` を `~/.claude/settings.json` にコピーした（[4-4 参照](#4-4-サンプル設定ファイルによるセットアップ)） | [ ] |
 | 本リポジトリの `hooks/block_dangerous.sh` を `~/.claude/hooks/` にコピーし、実行権限を付与した | [ ] |
-| `~/.claude/settings.json` の内容を確認し、deny ルールに `.env`、`~/.ssh`、`~/.aws` が含まれている | [ ] |
+| `~/.claude/settings.json` の内容を確認し、deny ルールに `.env`、`~/.ssh`、`~/.aws`、`~/.config/gcloud` が含まれている | [ ] |
 | `permissions.defaultMode` が `default` に設定されている | [ ] |
 | サンドボックスが有効になっている | [ ] |
 | `allowUnsandboxedCommands` が `false` に設定されている | [ ] |
 | PreToolUse フック（危険コマンドブロック）が設定されている | [ ] |
-| プロジェクトに `CLAUDE.md` が配置されている | [ ] |
+| プロジェクトに `CLAUDE.md` が配置され、リポジトリにコミットされている | [ ] |
 | `.claude/settings.json` がリポジトリにコミットされている | [ ] |
 | `.claude/settings.local.json` が `.gitignore` に追加されている | [ ] |
 
@@ -855,6 +864,23 @@ which bwrap && bwrap --version
 
 # インストールされていない場合
 sudo apt install -y bubblewrap socat
+```
+
+### サンドボックスが有効にならない（macOS）
+
+macOS ではサンドボックスは OS ネイティブの機能を使用するため、追加パッケージのインストールは不要です。`claude doctor` を実行して環境診断を確認してください。
+
+### Hooks が動作しない
+
+スクリプトに実行権限が付与されていない、または `python3` が見つからない場合にフックが動作しないことがあります。
+
+```bash
+# 実行権限の確認と付与
+ls -l ~/.claude/hooks/block_dangerous.sh
+chmod +x ~/.claude/hooks/block_dangerous.sh
+
+# python3 の確認
+which python3
 ```
 
 ### パーミッションの確認が頻発して作業効率が低下する
@@ -907,3 +933,4 @@ claude doctor
 | 1.1.2 | 2026年4月30日 | MCP 利用時の推奨順を変更 |
 | 1.1.3 | 2026年4月30日 | `mcp add` コマンドにオプションを追加 |
 | 1.1.4 | 2026年4月30日 | ネットワーク制限セクションに `deniedDomains` に関するメモを追加 |
+| 1.1.5 | 2026年4月30日 | チェックリストの内容を修正 |

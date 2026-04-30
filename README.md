@@ -1,6 +1,6 @@
 # バーンワークス株式会社 Claude Code 利用ガイドライン
 
-**版数：** 1.1.3 （改訂履歴は文末に記載）  
+**版数：** 1.1.4 （改訂履歴は文末に記載）  
 **制定日：** 2026年4月1日  
 **最終更新日：** 2026年4月30日  
 **作成：** バーンワークス株式会社  
@@ -515,7 +515,6 @@ Claude Code セッション内で `/sandbox` コマンドを実行すると、�
 | ドメイン | 用途 |
 |---|---|
 | `registry.npmjs.org` | npm パッケージのダウンロード |
-| `registry.yarnpkg.com` | Yarn 利用時のレジストリ |
 
 #### ソースコード管理（GitHub）
 
@@ -547,7 +546,6 @@ Claude Code セッション内で `/sandbox` コマンドを実行すると、�
       "allowedDomains": [
         "api.anthropic.com",
         "registry.npmjs.org",
-        "registry.yarnpkg.com",
         "github.com",
         "api.github.com",
         "*.githubusercontent.com"
@@ -559,6 +557,20 @@ Claude Code セッション内で `/sandbox` コマンドを実行すると、�
 
 > [!WARNING]
 > **セキュリティ上の注意：** `github.com` のような広範なドメインは、Gist や Issue コメントを経由したデータ漏洩経路となりえます。ただし開発ツールの大半が GitHub と通信するため、実質的には許可が必要です。このリスクを認識した上で、サンドボックスの他の制限（ファイルシステム隔離、deny ルール）と組み合わせて運用してください。
+
+> [!TIP]
+> **特定ドメインを明示的に拒否する（`deniedDomains`）：** `allowedDomains` で許可するドメインを制御するのとは逆に、`deniedDomains` を使うと特定ドメインへの通信を明示的にブロックできます。機密性の高いプロジェクトで、本番環境や社内システムへの意図しないアクセスを防ぎたい場合に有効です。
+>
+> ```json
+> {
+>   "sandbox": {
+>     "network": {
+>       "allowedDomains": ["api.anthropic.com", "registry.npmjs.org"],
+>       "deniedDomains": ["prod.example.com", "internal.example.com"]
+>     }
+>   }
+> }
+> ```
 
 > [!TIP]
 > **既知の制約：** Node.js のネイティブ `fetch()`（undici ベース）はプロキシ環境変数を参照しないため、サンドボックス内で許可済みドメインへの通信であっても失敗する場合があります。この問題が発生した場合は、プロキシ対応のライブラリに差し替えるか、該当コマンドを `excludedCommands` で除外して対処してください。
@@ -894,3 +906,4 @@ claude doctor
 | 1.1.1 | 2026年4月30日 | `CLAUDE.md` に関する部分に情報を追加 |
 | 1.1.2 | 2026年4月30日 | MCP 利用時の推奨順を変更 |
 | 1.1.3 | 2026年4月30日 | `mcp add` コマンドにオプションを追加 |
+| 1.1.4 | 2026年4月30日 | ネットワーク制限セクションに `deniedDomains` に関するメモを追加 |

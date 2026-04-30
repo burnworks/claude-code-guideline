@@ -1,6 +1,6 @@
 # バーンワークス株式会社 Claude Code 利用ガイドライン
 
-**版数：** 1.1.7 （改訂履歴は文末に記載）  
+**版数：** 1.1.8 （改訂履歴は文末に記載）  
 **制定日：** 2026年4月1日  
 **最終更新日：** 2026年4月30日  
 **作成：** バーンワークス株式会社  
@@ -930,6 +930,10 @@ claude doctor
 | Hooks リファレンス | https://code.claude.com/docs/en/hooks |
 | サンドボックス解説（Anthropic エンジニアブログ） | https://www.anthropic.com/engineering/claude-code-sandboxing |
 
+## License
+
+This document is licensed under [Creative Commons Attribution-NonCommercial 4.0 International (CC BY-NC 4.0) License](https://creativecommons.org/licenses/by/4.0/).
+
 ## 改訂履歴
 
 | 版数 | 日付 | 変更内容 |
@@ -946,3 +950,4 @@ claude doctor
 | 1.1.5 | 2026年4月30日 | チェックリストの内容を修正 |
 | 1.1.6 | 2026年4月30日 | `settings.json` の内容を調整 |
 | 1.1.7 | 2026年4月30日 | 主要なフックイベントを最新の公式ドキュメントを基に修正 |
+| 1.1.8 | 2026年4月30日 | License セクションを追加 |

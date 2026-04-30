@@ -244,7 +244,7 @@ claude doctor
  
 | 設定項目 | 概要 | 詳細 |
 |---|---|---|
-| `defaultMode` | `default`（安全優先モード） | [5-3. パーミッションモードの選択](#5-3-パーミッションモードの選択) |
+| `permissions.defaultMode` | `default`（安全優先モード） | [5-3. パーミッションモードの選択](#5-3-パーミッションモードの選択) |
 | `permissions` | allow / ask / deny ルール | [5-1. ユーザー共通設定](#5-1-ユーザー共通設定) |
 | `sandbox` | サンドボックス有効化、ネットワーク制限、Docker 除外 | [7-2.](#7-2-有効化の手順) / [7-3.](#7-3-ネットワーク制限) / [7-4.](#7-4-docker-コマンドの除外) |
 | `hooks` | PreToolUse による危険コマンドブロック | [8-4. 設定例](#8-4-設定例危険コマンドブロック用スクリプト) |
@@ -266,8 +266,8 @@ claude doctor
 ```json
 {
   "$schema": "https://json.schemastore.org/claude-code-settings.json",
-  "defaultMode": "default",
   "permissions": {
+    "defaultMode": "default",
     "allow": [
       "Bash(git status)",
       "Bash(git log *)",
@@ -361,7 +361,7 @@ claude doctor
 
 ### 5-3. パーミッションモードの選択
 
-`defaultMode` には以下の値を設定できます。
+`permissions.defaultMode` には以下の値を設定できます。
 
 | モード | 動作 | 業務利用の可否 |
 |---|---|---|
@@ -793,7 +793,7 @@ Claude Code が生成・編集したコードは、人間が作成したコー�
 | 本リポジトリの `settings.json` を `~/.claude/settings.json` にコピーした（[4-4 参照](#4-4-サンプル設定ファイルによるセットアップ)） | [ ] |
 | 本リポジトリの `hooks/block_dangerous.sh` を `~/.claude/hooks/` にコピーし、実行権限を付与した | [ ] |
 | `~/.claude/settings.json` の内容を確認し、deny ルールに `.env`、`~/.ssh`、`~/.aws` が含まれている | [ ] |
-| `defaultMode` が `default` に設定されている | [ ] |
+| `permissions.defaultMode` が `default` に設定されている | [ ] |
 | サンドボックスが有効になっている | [ ] |
 | `allowUnsandboxedCommands` が `false` に設定されている | [ ] |
 | PreToolUse フック（危険コマンドブロック）が設定されている | [ ] |
